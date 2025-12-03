@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHARIZNAD | The Purple Dragon</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --monad-purple: #836EF9;
+            --monad-dark: #200052;
+            --pepe-green: #46a049;
+            --fire: #ff00ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" fill="%23836EF9"><circle cx="12" cy="12" r="10"/></svg>'), auto;
+        }
+
+        body {
+            background-color: #050505;
+            color: white;
+            font-family: 'Comic Neue', cursive;
+            overflow-x: hidden;
+        }
+
+        /* --- CRT SCREEN EFFECT --- */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* --- HERO SECTION WITH VIDEO BACKGROUND --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            border-bottom: 5px solid var(--monad-purple);
+        }
+
+        #bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: hue-rotate(270deg) contrast(1.2) brightness(0.6); /* Purple Tint */
+        }
+
+        .hero-content {
+            z-index: 2;
+            background: rgba(0,0,0,0.6);
+            padding: 2rem;
+            border: 4px solid var(--monad-purple);
+            box-shadow: 10px 10px 0px var(--pepe-green);
+            transform: rotate(-2deg);
+            max-width: 90%;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3rem;
+            color: var(--monad-purple);
+            text-shadow: 4px 4px 0px #fff;
+            margin-bottom: 20px;
+            animation: glitch 1s infinite;
+        }
+
+        p.tagline {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 3px solid white;
+            text-transform: uppercase;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .btn-buy {
+            background-color: var(--pepe-green);
+            color: white;
+            box-shadow: 5px 5px 0px black;
+            animation: shake 2s infinite;
+        }
+
+        .btn-buy:hover {
+            transform: scale(1.1);
+            background-color: #5edc62;
+        }
+
+        .btn-twitter {
+            background-color: #1DA1F2;
+            color: white;
+            box-shadow: 5px 5px 0px black;
+        }
+
+        /* --- MARQUEE --- */
+        .marquee-container {
+            background: var(--monad-purple);
+            color: #fff;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: 'Press Start 2P';
+            border-top: 3px solid black;
+            border-bottom: 3px solid black;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 10s linear infinite;
+            font-size: 1.2rem;
+        }
+
+        /* --- THE MEME DUMP (Gallery) --- */
+        .gallery-section {
+            padding: 50px 20px;
+            background-image: url('logo.png'); /* Pattern effect */
+            background-size: 100px;
+            background-blend-mode: multiply;
+            background-color: var(--monad-dark);
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-family: 'Press Start 2P';
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--monad-purple);
+        }
+
+        .chaos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .chaos-item {
+            background: #000;
+            border: 3px solid white;
+            padding: 10px;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .chaos-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 2px solid var(--monad-purple);
+        }
+
+        /* Random rotations for chaos */
+        .chaos-item:nth-child(odd) { transform: rotate(3deg); }
+        .chaos-item:nth-child(even) { transform: rotate(-3deg); }
+        .chaos-item:hover { transform: scale(1.1) rotate(0deg) z-index: 10; border-color: var(--pepe-green); }
+
+        /* --- LORE & TOKENOMICS --- */
+        .lore-section {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 50px;
+            background: black;
+            color: var(--monad-purple);
+            border-top: 5px dashed white;
+        }
+
+        .lore-box {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border: 2px solid var(--monad-purple);
+            margin: 10px;
+            background: #111;
+        }
+
+        .lore-box h2 {
+            font-family: 'Press Start 2P';
+            margin-bottom: 20px;
+            color: var(--pepe-green);
+        }
+
+        .token-address {
+            background: #222;
+            padding: 15px;
+            font-family: monospace;
+            word-break: break-all;
+            border: 1px solid white;
+            color: white;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .token-address:active {
+            background: var(--pepe-green);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: var(--monad-purple);
+            font-family: 'Press Start 2P';
+            font-size: 0.8rem;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* Floating elements */
+        .floating-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            animation: shake 3s infinite;
+            z-index: 100;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <a href="#top">
+        <img src="logo.png" class="floating-logo" alt="Chariznad Logo">
+    </a>
+
+    <section class="hero" id="top">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="memevideo1.mp4" type="video/mp4">
+        </video>
+
+        <div class="hero-content">
+            <h1>CHARIZNAD</h1>
+            <p class="tagline">
+                Low IQ. High Speed. <br>
+                <span style="color:var(--pepe-green)">The King of Monad Chain</span>
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="https://nad-fun.gitbook.io/nad.fun" target="_blank" class="btn btn-buy">
+                    🚀 BUY ON NAD.FUN
+                </a>
+                <a href="https://twitter.com" target="_blank" class="btn btn-twitter">
+                    🐦 TWITTER
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            $NAD $$$ CHARIZNAD IS COMING $$$ BURN THE GAS $$$ PEPE MEETS DRAGON $$$ MONAD SUMMER IS HERE $$$ HODL TILL 0 OR 1M $$$ 
+        </div>
+    </div>
+
+    <section class="gallery-section">
+        <h2 class="gallery-title">THE LORE OF THE NAD</h2>
+        <div class="chaos-grid">
+            <div class="chaos-item">
+                <img src="meme1.png" alt="Portal Meme">
+                <p style="text-align:center; margin-top:5px;">ENTER THE NAD</p>
+            </div>
+            <div class="chaos-item">
+                <img src="meme4.png" alt="Burning Meme">
+                <p style="text-align:center; margin-top:5px;">DRACARYS PEPE</p>
+            </div>
+            <div class="chaos-item">
+                <img src="meme5.png" alt="Office Meme">
+                <p style="text-align:center; margin-top:5px;">DEV AT WORK</p>
+            </div>
+            <div class="chaos-item">
+                <img src="meme2.png" alt="Space Meme">
+                <p style="text-align:center; margin-top:5px;">MOON MISSION</p>
+            </div>
+            <div class="chaos-item">
+                <img src="meme3.png" alt="Throne Meme">
+                <p style="text-align:center; margin-top:5px;">KING OF CHAIN</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="lore-section">
+        <div class="lore-box">
+            <h2>WHO IS CHARIZNAD?</h2>
+            <p>
+                Born from a glitch in the EVM. Chariznad is 50% Dragon, 50% Frog, and 100% Retarded. 
+                He doesn't fly, he glides on the Monad throughput. He breathes purple fire and burns paper hands.
+            </p>
+            <br>
+            <p style="color:white"><strong>MISSION:</strong> FLIP EVERY DOG COIN.</p>
+        </div>
+
+        <div class="lore-box">
+            <h2>TOKENOMICS</h2>
+            <ul style="list-style: none; line-height: 2;">
+                <li>🟣 <strong>Supply:</strong> 1,000,000,000</li>
+                <li>🟣 <strong>Tax:</strong> 0% (We aren't greedy)</li>
+                <li>🟣 <strong>Liquidity:</strong> BURNT LIKE MY BREATH</li>
+                <li>🟣 <strong>Contract:</strong></li>
+            </ul>
+            <div class="token-address" onclick="alert('Launching soon on Nad.fun!')">
+                CA: SOON_ON_NAD_FUN_CLICK_TO_COPY
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 CHARIZNAD. NO ROADMAP. JUST VIBES.</p>
+        <br>
+        <p style="font-size: 0.6rem; color: #555;">Not financial advice. I am a cartoon dragon.</p>
+    </footer>
+
+    <script>
+        // Simple script to make the title glitch more randomly
+        const title = document.querySelector('h1');
+        setInterval(() => {
+            const r = Math.random();
+            if(r > 0.8) {
+                title.style.textShadow = `${Math.random()*10 - 5}px ${Math.random()*10 - 5}px 0px #00ff00`;
+            } else {
+                title.style.textShadow = "4px 4px 0px #fff";
+            }
+        }, 100);
+    </script>
+</body>
+</html>
