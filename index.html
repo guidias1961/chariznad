@@ -45,7 +45,7 @@
             z-index: 999;
         }
 
-        /* --- HERO SECTION WITH VIDEO BACKGROUND --- */
+        /* --- HERO SECTION (UNCHANGED) --- */
         .hero {
             position: relative;
             height: 100vh;
@@ -68,7 +68,7 @@
             height: auto;
             transform: translate(-50%, -50%);
             z-index: -1;
-            filter: hue-rotate(270deg) contrast(1.2) brightness(0.6); /* Purple Tint */
+            filter: hue-rotate(270deg) contrast(1.2) brightness(0.6);
         }
 
         .hero-content {
@@ -150,66 +150,111 @@
             font-size: 1.2rem;
         }
 
-        /* --- THE MEME DUMP (Gallery) --- */
-        .gallery-section {
-            padding: 50px 20px;
-            background-image: url('logo.png'); /* Pattern effect */
-            background-size: 100px;
-            background-blend-mode: multiply;
-            background-color: var(--monad-dark);
-        }
-
-        .gallery-title {
-            text-align: center;
-            font-family: 'Press Start 2P';
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: #fff;
-            text-shadow: 0 0 10px var(--monad-purple);
-        }
-
-        .chaos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .chaos-item {
-            background: #000;
-            border: 3px solid white;
-            padding: 10px;
-            transition: transform 0.3s;
+        /* --- NARRATIVE SECTION (NEW & IMPROVED) --- */
+        .narrative-section {
+            padding: 80px 20px;
+            background-image: url('logo.png');
+            background-size: 150px;
+            background-blend-mode: soft-light;
+            background-color: #0a0a0a;
             position: relative;
         }
 
-        .chaos-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border: 2px solid var(--monad-purple);
+        /* Vertical Line for timeline effect */
+        .narrative-section::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--monad-purple);
+            transform: translateX(-50%);
+            z-index: 0;
+            border-left: 2px dashed #fff;
         }
 
-        /* Random rotations for chaos */
-        .chaos-item:nth-child(odd) { transform: rotate(3deg); }
-        .chaos-item:nth-child(even) { transform: rotate(-3deg); }
-        .chaos-item:hover { transform: scale(1.1) rotate(0deg) z-index: 10; border-color: var(--pepe-green); }
+        .story-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 100px;
+            position: relative;
+            z-index: 1;
+        }
 
-        /* --- LORE & TOKENOMICS --- */
+        .story-content {
+            flex: 1;
+            padding: 30px;
+            background: #000;
+            border: 4px solid var(--monad-purple);
+            box-shadow: 8px 8px 0px #fff;
+            max-width: 500px;
+            margin: 0 40px;
+        }
+
+        .story-content h2 {
+            font-family: 'Press Start 2P';
+            color: var(--pepe-green);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .story-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .story-img {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            max-width: 500px;
+            margin: 0 40px;
+        }
+
+        .story-img img {
+            width: 100%;
+            border: 4px solid #fff;
+            box-shadow: -10px 10px 0px var(--monad-purple);
+            transition: transform 0.3s;
+        }
+
+        .story-img img:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        /* Alternating Layout (Zig Zag) */
+        .story-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .story-row:nth-child(even) .story-content {
+            box-shadow: -8px 8px 0px #fff;
+            text-align: right;
+        }
+        
+        .story-row:nth-child(even) .story-img img {
+            box-shadow: 10px 10px 0px var(--pepe-green);
+        }
+
+        /* --- LORE & TOKENOMICS (UNCHANGED) --- */
         .lore-section {
             display: flex;
             flex-wrap: wrap;
             padding: 50px;
             background: black;
             color: var(--monad-purple);
-            border-top: 5px dashed white;
+            border-top: 5px solid white;
+            position: relative;
+            z-index: 2;
         }
 
         .lore-box {
             flex: 1;
             min-width: 300px;
-            padding: 20px;
+            padding: 40px;
             border: 2px solid var(--monad-purple);
             margin: 10px;
             background: #111;
@@ -232,16 +277,14 @@
             cursor: pointer;
         }
 
-        .token-address:active {
-            background: var(--pepe-green);
-        }
-
         footer {
             text-align: center;
             padding: 40px;
             background: var(--monad-purple);
             font-family: 'Press Start 2P';
             font-size: 0.8rem;
+            position: relative;
+            z-index: 2;
         }
 
         /* --- ANIMATIONS --- */
@@ -266,7 +309,6 @@
             100% { transform: rotate(0deg); }
         }
 
-        /* Floating elements */
         .floating-logo {
             position: fixed;
             bottom: 20px;
@@ -274,6 +316,24 @@
             width: 80px;
             animation: shake 3s infinite;
             z-index: 100;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .story-row, .story-row:nth-child(even) {
+                flex-direction: column;
+                margin-bottom: 60px;
+            }
+            .narrative-section::before {
+                display: none;
+            }
+            .story-content, .story-img {
+                margin: 0;
+                width: 100%;
+                text-align: left !important;
+                margin-bottom: 20px;
+            }
+            h1 { font-size: 1.8rem; }
         }
 
     </style>
@@ -315,41 +375,89 @@
         </div>
     </div>
 
-    <section class="gallery-section">
-        <h2 class="gallery-title">THE LORE OF THE NAD</h2>
-        <div class="chaos-grid">
-            <div class="chaos-item">
-                <img src="meme1.png" alt="Portal Meme">
-                <p style="text-align:center; margin-top:5px;">ENTER THE NAD</p>
+    <section class="narrative-section">
+        
+        <div class="story-row">
+            <div class="story-content">
+                <h2>THE GENESIS GLITCH</h2>
+                <p>
+                    It wasn't a mint. It was a mistake. <br><br>
+                    While testing the Monad testnet, a dev spilled grape juice on the server. The portal opened. Out came a creature too dumb to sell and too angry to die. Chariznad entered the chat.
+                </p>
             </div>
-            <div class="chaos-item">
-                <img src="meme4.png" alt="Burning Meme">
-                <p style="text-align:center; margin-top:5px;">DRACARYS PEPE</p>
-            </div>
-            <div class="chaos-item">
-                <img src="meme5.png" alt="Office Meme">
-                <p style="text-align:center; margin-top:5px;">DEV AT WORK</p>
-            </div>
-            <div class="chaos-item">
-                <img src="meme2.png" alt="Space Meme">
-                <p style="text-align:center; margin-top:5px;">MOON MISSION</p>
-            </div>
-            <div class="chaos-item">
-                <img src="meme3.png" alt="Throne Meme">
-                <p style="text-align:center; margin-top:5px;">KING OF CHAIN</p>
+            <div class="story-img">
+                <img src="meme1.png" alt="Portal Origin">
             </div>
         </div>
+
+        <div class="story-row">
+            <div class="story-content">
+                <h2>THE "AUDIT"</h2>
+                <p>
+                    Chariznad personally audits every transaction. <br><br>
+                    How? He stares at the screen until his eyes burn. He creates "advanced tech" (drawing lines on MS Paint). He is the hardest working dragon in the memespace.
+                    <br><em>(He is actually just buying more $NAD)</em>.
+                </p>
+            </div>
+            <div class="story-img">
+                <img src="meme5.png" alt="Office Work">
+            </div>
+        </div>
+
+        <div class="story-row">
+            <div class="story-content">
+                <h2>DRACARYS ON JEETS</h2>
+                <p>
+                    Paper hands? Burned.<br>
+                    FUDders? Toast.<br>
+                    Gas fees? Non-existent.<br><br>
+                    When Chariznad sneezes, a wallet gets drained of negativity. We don't need utility when we have this much fire power.
+                </p>
+            </div>
+            <div class="story-img">
+                <img src="meme4.png" alt="Burning Fire">
+            </div>
+        </div>
+
+        <div class="story-row">
+            <div class="story-content">
+                <h2>KING OF THE CHAIN</h2>
+                <p>
+                    Other mascots are cute dogs. Chariznad is an apex predator with low self-esteem.<br><br>
+                    He sits on the Throne of Monad, waiting for the TPS to hit 10,000 so he can buy his own dip faster than anyone else.
+                </p>
+            </div>
+            <div class="story-img">
+                <img src="meme3.png" alt="Throne King">
+            </div>
+        </div>
+
+         <div class="story-row">
+            <div class="story-content">
+                <h2>NO ROADMAP, ONLY UP</h2>
+                <p>
+                    Where are we going? Nobody knows.<br>
+                    Why are we going? Because number go up.<br><br>
+                    Chariznad defies gravity not because he has wings, but because he doesn't understand physics.
+                </p>
+            </div>
+            <div class="story-img">
+                <img src="meme2.png" alt="Moon Space">
+            </div>
+        </div>
+
     </section>
 
     <section class="lore-section">
         <div class="lore-box">
             <h2>WHO IS CHARIZNAD?</h2>
-            <p>
-                Born from a glitch in the EVM. Chariznad is 50% Dragon, 50% Frog, and 100% Retarded. 
-                He doesn't fly, he glides on the Monad throughput. He breathes purple fire and burns paper hands.
+            <p style="font-size: 1.2rem; line-height: 1.8;">
+                Born from a glitch in the EVM. Chariznad is 50% Dragon, 50% Frog, and 100% Retarded. He doesn't fly, he glides on the Monad throughput. He breathes purple fire and burns paper hands.
             </p>
             <br>
-            <p style="color:white"><strong>MISSION:</strong> FLIP EVERY DOG COIN.</p>
+            <p style="color:white; font-size: 1.5rem; text-transform: uppercase; border: 2px dashed var(--pepe-green); padding: 10px; display: inline-block;">
+                MISSION: FLIP EVERY DOG COIN.
+            </p>
         </div>
 
         <div class="lore-box">
@@ -373,7 +481,6 @@
     </footer>
 
     <script>
-        // Simple script to make the title glitch more randomly
         const title = document.querySelector('h1');
         setInterval(() => {
             const r = Math.random();
